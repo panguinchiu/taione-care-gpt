@@ -1,0 +1,1837 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>智慧居家護理師 | TaiOne Care GPT | 本一科技</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;600;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1B3672;
+            --primary-dark: #0F2147;
+            --primary-light: #2A4F9F;
+            --accent: #C0143C;
+            --accent-light: #E8184A;
+            --teal: #0D9488;
+            --teal-light: #14B8A6;
+            --cyan: #0EA5E9;
+            --green: #22C55E;
+            --bg-dark: #0A1628;
+            --bg-navy: #0F1E40;
+            --surface: #F0F4FF;
+            --surface-2: #E8EEF8;
+            --white: #FFFFFF;
+            --text-dark: #0F172A;
+            --text-mid: #334155;
+            --text-light: #64748B;
+            --border: rgba(27,54,114,0.15);
+            --glow-blue: rgba(14,165,233,0.3);
+            --glow-teal: rgba(13,148,136,0.3);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Noto Sans TC', 'Inter', sans-serif;
+            color: var(--text-dark);
+            background: var(--white);
+            overflow-x: hidden;
+        }
+
+        /* ===================== NAVBAR ===================== */
+        .navbar {
+            position: fixed; top: 0; left: 0; right: 0;
+            z-index: 1000;
+            background: rgba(10, 22, 40, 0.92);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(14,165,233,0.2);
+            padding: 0 40px;
+            height: 64px;
+            display: flex; align-items: center; justify-content: space-between;
+        }
+        .navbar-logo {
+            display: flex; align-items: center; gap: 12px;
+            text-decoration: none;
+        }
+        .navbar-logo img { height: 32px; }
+        .navbar-logo-text {
+            color: var(--white);
+            font-size: 14px; font-weight: 500;
+            opacity: 0.7;
+            border-left: 1px solid rgba(255,255,255,0.2);
+            padding-left: 12px;
+        }
+        .navbar-links {
+            display: flex; align-items: center; gap: 32px;
+        }
+        .navbar-links a {
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            font-size: 14px; font-weight: 400;
+            transition: color 0.2s;
+        }
+        .navbar-links a:hover { color: var(--white); }
+        .navbar-cta {
+            background: var(--accent);
+            color: var(--white) !important;
+            padding: 8px 20px;
+            border-radius: 6px;
+            font-weight: 500 !important;
+            transition: background 0.2s !important;
+        }
+        .navbar-cta:hover { background: var(--accent-light) !important; }
+
+        /* ===================== HERO ===================== */
+        .hero {
+            min-height: 100vh;
+            background: var(--bg-dark);
+            position: relative;
+            overflow: hidden;
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            padding: 100px 40px 60px;
+        }
+        .hero-grid {
+            position: absolute; inset: 0;
+            background-image:
+                linear-gradient(rgba(14,165,233,0.07) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(14,165,233,0.07) 1px, transparent 1px);
+            background-size: 60px 60px;
+        }
+        .hero-glow-1 {
+            position: absolute; width: 600px; height: 600px;
+            background: radial-gradient(circle, rgba(27,54,114,0.5) 0%, transparent 70%);
+            top: -100px; left: -100px; border-radius: 50%;
+            animation: pulse-glow 4s ease-in-out infinite alternate;
+        }
+        .hero-glow-2 {
+            position: absolute; width: 500px; height: 500px;
+            background: radial-gradient(circle, rgba(13,148,136,0.3) 0%, transparent 70%);
+            bottom: -100px; right: 10%; border-radius: 50%;
+            animation: pulse-glow 5s ease-in-out infinite alternate-reverse;
+        }
+        .hero-glow-3 {
+            position: absolute; width: 300px; height: 300px;
+            background: radial-gradient(circle, rgba(192,20,60,0.2) 0%, transparent 70%);
+            top: 30%; right: 5%; border-radius: 50%;
+            animation: pulse-glow 6s ease-in-out infinite alternate;
+        }
+        @keyframes pulse-glow {
+            0% { opacity: 0.5; transform: scale(1); }
+            100% { opacity: 1; transform: scale(1.15); }
+        }
+        .hero-content {
+            position: relative; z-index: 2;
+            display: grid; grid-template-columns: 1fr 1fr;
+            gap: 60px; align-items: center;
+            max-width: 1200px; width: 100%;
+        }
+        .hero-left {}
+        .hero-badge {
+            display: inline-flex; align-items: center; gap: 8px;
+            background: rgba(13,148,136,0.15);
+            border: 1px solid rgba(13,148,136,0.4);
+            color: var(--teal-light);
+            padding: 6px 16px; border-radius: 100px;
+            font-size: 13px; font-weight: 500;
+            margin-bottom: 24px;
+        }
+        .hero-badge-dot {
+            width: 8px; height: 8px; border-radius: 50%;
+            background: var(--teal-light);
+            animation: blink 1.5s ease-in-out infinite;
+        }
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+        .hero-product-logo {
+            margin-bottom: 20px;
+        }
+        .hero-product-logo img {
+            height: 80px;
+            filter: brightness(0) invert(1);
+        }
+        .hero-title {
+            font-size: 52px; font-weight: 900;
+            color: var(--white);
+            line-height: 1.15;
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+        }
+        .hero-title .accent { color: var(--accent); }
+        .hero-subtitle {
+            font-size: 26px; font-weight: 400;
+            color: rgba(255,255,255,0.6);
+            margin-bottom: 24px;
+        }
+        .hero-desc {
+            font-size: 16px; line-height: 1.8;
+            color: rgba(255,255,255,0.55);
+            margin-bottom: 40px;
+            max-width: 500px;
+        }
+        .hero-actions {
+            display: flex; gap: 16px; flex-wrap: wrap;
+        }
+        .btn-primary {
+            background: var(--accent);
+            color: white;
+            padding: 14px 32px;
+            border-radius: 8px;
+            font-size: 16px; font-weight: 600;
+            text-decoration: none;
+            border: none; cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 24px rgba(192,20,60,0.4);
+        }
+        .btn-primary:hover {
+            background: var(--accent-light);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 32px rgba(192,20,60,0.5);
+        }
+        .btn-outline {
+            background: transparent;
+            color: white;
+            padding: 14px 32px;
+            border-radius: 8px;
+            font-size: 16px; font-weight: 500;
+            text-decoration: none;
+            border: 1px solid rgba(255,255,255,0.3);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .btn-outline:hover {
+            border-color: rgba(255,255,255,0.7);
+            background: rgba(255,255,255,0.07);
+        }
+        .hero-right {
+            display: flex; justify-content: center; align-items: center;
+            position: relative;
+        }
+        .phone-showcase {
+            display: flex; gap: 20px; align-items: flex-start;
+            position: relative;
+        }
+        .phone-frame {
+            width: 200px;
+            background: #1a1a2e;
+            border-radius: 36px;
+            border: 6px solid #2a2a4e;
+            box-shadow: 0 30px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.05);
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+        .phone-frame.main {
+            width: 230px;
+            transform: translateY(-20px);
+            box-shadow: 0 40px 100px rgba(0,0,0,0.7), 0 0 40px rgba(14,165,233,0.2);
+        }
+        .phone-frame img {
+            width: 100%; display: block;
+        }
+
+        /* ===================== STATS BAR ===================== */
+        .stats-bar {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            padding: 32px 40px;
+        }
+        .stats-inner {
+            max-width: 1200px; margin: 0 auto;
+            display: grid; grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
+        }
+        .stat-item {
+            text-align: center;
+            padding: 0 20px;
+            border-right: 1px solid rgba(255,255,255,0.15);
+        }
+        .stat-item:last-child { border-right: none; }
+        .stat-num {
+            font-size: 40px; font-weight: 900;
+            color: var(--white);
+            line-height: 1;
+            margin-bottom: 6px;
+        }
+        .stat-num span { color: var(--teal-light); }
+        .stat-label {
+            font-size: 14px; color: rgba(255,255,255,0.65);
+            font-weight: 400;
+        }
+
+        /* ===================== SECTION HEADER ===================== */
+        .section-header {
+            text-align: center;
+            max-width: 700px; margin: 0 auto 60px;
+        }
+        .section-tag {
+            display: inline-block;
+            font-size: 12px; font-weight: 600;
+            color: var(--teal);
+            text-transform: uppercase; letter-spacing: 2px;
+            margin-bottom: 12px;
+        }
+        .section-title {
+            font-size: 36px; font-weight: 800;
+            color: var(--primary-dark);
+            line-height: 1.25;
+            margin-bottom: 16px;
+        }
+        .section-desc {
+            font-size: 16px; line-height: 1.8;
+            color: var(--text-light);
+        }
+
+        /* ===================== TABS ===================== */
+        .tabs-section {
+            background: var(--surface);
+            padding: 80px 0;
+        }
+        .tabs-nav-wrapper {
+            max-width: 1200px; margin: 0 auto 60px;
+            padding: 0 40px;
+        }
+        .tabs-nav {
+            display: flex; justify-content: center; gap: 8px;
+            background: var(--white);
+            border-radius: 14px;
+            padding: 6px;
+            box-shadow: 0 4px 24px rgba(27,54,114,0.1);
+            border: 1px solid var(--border);
+        }
+        .tab-btn {
+            flex: 1;
+            padding: 14px 20px;
+            border: none; background: transparent;
+            border-radius: 10px;
+            font-size: 15px; font-weight: 500;
+            color: var(--text-light);
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Noto Sans TC', sans-serif;
+            white-space: nowrap;
+        }
+        .tab-btn:hover { background: var(--surface); color: var(--primary); }
+        .tab-btn.active {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 4px 16px rgba(27,54,114,0.35);
+        }
+        .tab-content {
+            max-width: 1200px; margin: 0 auto;
+            padding: 0 40px;
+        }
+        .tab-panel {
+            display: none;
+            animation: fadeInUp 0.4s ease;
+        }
+        .tab-panel.active { display: block; }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ===================== TAB 1: 產品核心 ===================== */
+        .product-overview {
+            display: grid; grid-template-columns: 1fr 1fr;
+            gap: 60px; align-items: center;
+            margin-bottom: 80px;
+        }
+        .product-overview-text h2 {
+            font-size: 32px; font-weight: 800;
+            color: var(--primary-dark);
+            line-height: 1.3; margin-bottom: 16px;
+        }
+        .product-overview-text p {
+            font-size: 16px; line-height: 1.85;
+            color: var(--text-mid); margin-bottom: 24px;
+        }
+        .feature-list { list-style: none; }
+        .feature-list li {
+            display: flex; align-items: flex-start; gap: 12px;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--border);
+            font-size: 15px; color: var(--text-mid);
+            line-height: 1.6;
+        }
+        .feature-list li:last-child { border-bottom: none; }
+        .feature-icon {
+            width: 24px; height: 24px; border-radius: 6px;
+            background: var(--teal); flex-shrink: 0;
+            display: flex; align-items: center; justify-content: center;
+            margin-top: 2px;
+        }
+        .feature-icon svg { width: 14px; height: 14px; }
+        .product-phones {
+            display: flex; gap: 16px; justify-content: center;
+            align-items: flex-end;
+        }
+        .product-phone {
+            width: 185px;
+            background: #111827;
+            border-radius: 32px;
+            border: 5px solid #1f2937;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        .product-phone.featured {
+            width: 200px;
+            transform: translateY(-12px);
+            box-shadow: 0 30px 80px rgba(27,54,114,0.35), 0 0 30px rgba(14,165,233,0.15);
+        }
+        .product-phone img { width: 100%; display: block; }
+
+        .hardware-section {
+            background: linear-gradient(135deg, var(--bg-dark) 0%, var(--bg-navy) 100%);
+            border-radius: 20px;
+            padding: 50px;
+            margin-bottom: 60px;
+            position: relative; overflow: hidden;
+        }
+        .hardware-section::before {
+            content: '';
+            position: absolute; inset: 0;
+            background-image: linear-gradient(rgba(14,165,233,0.05) 1px, transparent 1px),
+                              linear-gradient(90deg, rgba(14,165,233,0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+        .hardware-inner {
+            position: relative; z-index: 1;
+            display: grid; grid-template-columns: 1fr 1fr;
+            gap: 50px; align-items: center;
+        }
+        .hardware-text h2 {
+            font-size: 28px; font-weight: 800;
+            color: white; margin-bottom: 12px;
+        }
+        .hardware-text .tag {
+            display: inline-block;
+            background: rgba(13,148,136,0.2);
+            border: 1px solid rgba(13,148,136,0.4);
+            color: var(--teal-light);
+            padding: 4px 12px; border-radius: 100px;
+            font-size: 12px; font-weight: 600;
+            margin-bottom: 20px;
+        }
+        .hardware-text p {
+            font-size: 15px; line-height: 1.8;
+            color: rgba(255,255,255,0.65);
+            margin-bottom: 24px;
+        }
+        .hw-specs {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+        }
+        .hw-spec {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 10px; padding: 14px 16px;
+        }
+        .hw-spec-label {
+            font-size: 11px; font-weight: 600;
+            color: var(--teal-light); text-transform: uppercase;
+            letter-spacing: 1px; margin-bottom: 4px;
+        }
+        .hw-spec-val {
+            font-size: 14px; font-weight: 600; color: white;
+        }
+        .hardware-visual {
+            display: flex; justify-content: center;
+            align-items: center; gap: 16px;
+        }
+        .bodycam-frame {
+            width: 180px;
+            background: #1a1a2e;
+            border-radius: 28px;
+            border: 5px solid #2a2a4e;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 30px rgba(14,165,233,0.2);
+            overflow: hidden;
+        }
+        .bodycam-frame img { width: 100%; display: block; }
+
+        .core-features-grid {
+            display: grid; grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+        .core-card {
+            background: white;
+            border-radius: 16px;
+            padding: 28px 24px;
+            border: 1px solid var(--border);
+            box-shadow: 0 4px 20px rgba(27,54,114,0.06);
+            transition: all 0.3s;
+        }
+        .core-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(27,54,114,0.12);
+            border-color: rgba(27,54,114,0.25);
+        }
+        .core-card-icon {
+            width: 52px; height: 52px; border-radius: 14px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 24px; margin-bottom: 16px;
+        }
+        .core-card-icon.blue { background: rgba(27,54,114,0.1); }
+        .core-card-icon.teal { background: rgba(13,148,136,0.1); }
+        .core-card-icon.red { background: rgba(192,20,60,0.1); }
+        .core-card-icon.cyan { background: rgba(14,165,233,0.1); }
+        .core-card h4 {
+            font-size: 16px; font-weight: 700;
+            color: var(--primary-dark); margin-bottom: 8px;
+        }
+        .core-card p {
+            font-size: 14px; line-height: 1.7;
+            color: var(--text-light);
+        }
+
+        /* ===================== TAB 2: 技術亮點 ===================== */
+        .tech-grid {
+            display: grid; grid-template-columns: repeat(2, 1fr);
+            gap: 24px; margin-bottom: 50px;
+        }
+        .tech-card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            box-shadow: 0 4px 20px rgba(27,54,114,0.06);
+            transition: all 0.3s;
+        }
+        .tech-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 16px 50px rgba(27,54,114,0.12);
+        }
+        .tech-card-header {
+            padding: 24px 28px 20px;
+            border-bottom: 1px solid var(--border);
+            display: flex; align-items: center; gap: 16px;
+        }
+        .tech-card-icon {
+            width: 48px; height: 48px; border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 22px; flex-shrink: 0;
+        }
+        .tech-card-header h3 {
+            font-size: 18px; font-weight: 700;
+            color: var(--primary-dark);
+        }
+        .tech-card-header p {
+            font-size: 13px; color: var(--text-light); margin-top: 2px;
+        }
+        .tech-card-body {
+            padding: 24px 28px;
+            display: flex; gap: 20px; align-items: flex-start;
+        }
+        .tech-card-phone {
+            width: 120px; flex-shrink: 0;
+            background: #111827;
+            border-radius: 20px;
+            border: 4px solid #1f2937;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+            overflow: hidden;
+        }
+        .tech-card-phone img { width: 100%; display: block; }
+        .tech-card-features { flex: 1; }
+        .tech-feature-item {
+            display: flex; align-items: flex-start; gap: 10px;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            font-size: 14px; color: var(--text-mid); line-height: 1.6;
+        }
+        .tech-feature-item:last-child { border-bottom: none; }
+        .tech-dot {
+            width: 8px; height: 8px; border-radius: 50%;
+            background: var(--teal); flex-shrink: 0; margin-top: 6px;
+        }
+
+        .ai-highlight-banner {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--teal) 100%);
+            border-radius: 20px; padding: 40px 50px;
+            display: flex; align-items: center; justify-content: space-between;
+            gap: 30px;
+        }
+        .ai-highlight-text h3 {
+            font-size: 24px; font-weight: 800; color: white; margin-bottom: 8px;
+        }
+        .ai-highlight-text p {
+            font-size: 15px; color: rgba(255,255,255,0.75); line-height: 1.7;
+        }
+        .ai-stats-row {
+            display: flex; gap: 40px; flex-shrink: 0;
+        }
+        .ai-stat { text-align: center; }
+        .ai-stat-num {
+            font-size: 32px; font-weight: 900; color: white;
+            line-height: 1;
+        }
+        .ai-stat-label {
+            font-size: 12px; color: rgba(255,255,255,0.65); margin-top: 4px;
+        }
+
+        /* ===================== TAB 3: 安全技術 ===================== */
+        .security-hero {
+            background: linear-gradient(135deg, var(--bg-dark) 0%, var(--bg-navy) 100%);
+            border-radius: 20px; padding: 50px;
+            margin-bottom: 40px; position: relative; overflow: hidden;
+        }
+        .security-hero::before {
+            content: '';
+            position: absolute; inset: 0;
+            background-image: radial-gradient(circle at 70% 50%, rgba(13,148,136,0.15) 0%, transparent 60%);
+        }
+        .security-hero-inner {
+            position: relative; z-index: 1;
+            display: grid; grid-template-columns: 1fr 1fr;
+            gap: 50px; align-items: center;
+        }
+        .security-hero-text h2 {
+            font-size: 30px; font-weight: 800; color: white; margin-bottom: 16px;
+        }
+        .security-hero-text p {
+            font-size: 15px; line-height: 1.8; color: rgba(255,255,255,0.65);
+            margin-bottom: 28px;
+        }
+        .security-key-metrics {
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
+        }
+        .sec-metric {
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px; padding: 16px;
+            text-align: center;
+        }
+        .sec-metric-num {
+            font-size: 28px; font-weight: 900;
+            color: var(--teal-light); line-height: 1;
+        }
+        .sec-metric-label {
+            font-size: 12px; color: rgba(255,255,255,0.55); margin-top: 4px;
+        }
+        .security-layers-visual {
+            display: flex; justify-content: center; align-items: center;
+        }
+        .layers-diagram {
+            position: relative;
+            width: 300px; height: 300px;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .layer-ring {
+            position: absolute;
+            border-radius: 50%;
+            border: 2px solid;
+            display: flex; align-items: center; justify-content: center;
+            animation: spin-slow linear infinite;
+        }
+        .layer-ring:nth-child(1) { width: 290px; height: 290px; border-color: rgba(14,165,233,0.2); animation-duration: 30s; }
+        .layer-ring:nth-child(2) { width: 240px; height: 240px; border-color: rgba(13,148,136,0.3); animation-duration: 25s; animation-direction: reverse; }
+        .layer-ring:nth-child(3) { width: 190px; height: 190px; border-color: rgba(14,165,233,0.4); animation-duration: 20s; }
+        .layer-ring:nth-child(4) { width: 140px; height: 140px; border-color: rgba(13,148,136,0.5); animation-duration: 15s; animation-direction: reverse; }
+        .layer-ring:nth-child(5) { width: 90px; height: 90px; border-color: rgba(14,165,233,0.7); animation-duration: 10s; }
+        @keyframes spin-slow {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        .layer-center {
+            position: absolute;
+            width: 60px; height: 60px; border-radius: 50%;
+            background: linear-gradient(135deg, var(--teal), var(--cyan));
+            display: flex; align-items: center; justify-content: center;
+            font-size: 24px;
+            box-shadow: 0 0 30px rgba(13,148,136,0.5);
+            z-index: 10;
+        }
+        .layer-dot {
+            position: absolute; width: 8px; height: 8px;
+            background: var(--teal-light); border-radius: 50%;
+            box-shadow: 0 0 8px var(--teal-light);
+        }
+
+        .security-grid {
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;
+            margin-bottom: 40px;
+        }
+        .sec-card {
+            background: white;
+            border-radius: 16px; padding: 28px 24px;
+            border: 1px solid var(--border);
+            box-shadow: 0 4px 20px rgba(27,54,114,0.06);
+            transition: all 0.3s;
+        }
+        .sec-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 16px 50px rgba(27,54,114,0.12);
+            border-color: rgba(13,148,136,0.3);
+        }
+        .sec-card-num {
+            font-size: 40px; font-weight: 900;
+            color: var(--teal); line-height: 1; margin-bottom: 4px;
+        }
+        .sec-card h4 {
+            font-size: 16px; font-weight: 700;
+            color: var(--primary-dark); margin-bottom: 10px;
+        }
+        .sec-card p {
+            font-size: 14px; line-height: 1.7; color: var(--text-light);
+        }
+        .sec-points { list-style: none; margin-top: 12px; }
+        .sec-points li {
+            font-size: 13px; color: var(--text-mid);
+            padding: 5px 0;
+            display: flex; align-items: center; gap: 8px;
+        }
+        .sec-points li::before {
+            content: '';
+            width: 6px; height: 6px; border-radius: 50%;
+            background: var(--teal); flex-shrink: 0;
+        }
+
+        .compliance-strip {
+            background: white;
+            border-radius: 16px; padding: 32px 40px;
+            border: 1px solid var(--border);
+            display: flex; align-items: center; justify-content: space-between;
+            gap: 24px;
+        }
+        .compliance-title {
+            font-size: 18px; font-weight: 700; color: var(--primary-dark);
+            flex-shrink: 0;
+        }
+        .compliance-badges {
+            display: flex; gap: 16px; flex-wrap: wrap;
+        }
+        .compliance-badge {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px; padding: 10px 20px;
+            font-size: 14px; font-weight: 600;
+            color: var(--primary);
+        }
+
+        /* ===================== TAB 4: AI實驗室 ===================== */
+        .ai-lab-hero {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, #1a0a3e 100%);
+            border-radius: 20px; padding: 50px;
+            margin-bottom: 40px; position: relative; overflow: hidden;
+            text-align: center;
+        }
+        .ai-lab-hero::before {
+            content: '';
+            position: absolute; inset: 0;
+            background: radial-gradient(circle at 50% 50%, rgba(138,43,226,0.2) 0%, transparent 70%);
+        }
+        .ai-lab-hero h2 {
+            font-size: 36px; font-weight: 900;
+            color: white; margin-bottom: 12px;
+            position: relative; z-index: 1;
+        }
+        .ai-lab-hero p {
+            font-size: 16px; color: rgba(255,255,255,0.65);
+            max-width: 600px; margin: 0 auto 32px;
+            line-height: 1.8; position: relative; z-index: 1;
+        }
+        .ai-capabilities {
+            display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;
+            position: relative; z-index: 1;
+        }
+        .ai-cap-badge {
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.15);
+            color: rgba(255,255,255,0.85);
+            padding: 10px 20px; border-radius: 100px;
+            font-size: 14px; font-weight: 500;
+            backdrop-filter: blur(10px);
+        }
+
+        .ai-features-grid {
+            display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px;
+            margin-bottom: 40px;
+        }
+        .ai-feature-card {
+            background: white;
+            border-radius: 16px; overflow: hidden;
+            border: 1px solid var(--border);
+            box-shadow: 0 4px 20px rgba(27,54,114,0.06);
+            transition: all 0.3s;
+        }
+        .ai-feature-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 16px 50px rgba(27,54,114,0.12);
+        }
+        .ai-feature-card-top {
+            padding: 28px 28px 20px;
+            background: linear-gradient(135deg, var(--surface) 0%, white 100%);
+            border-bottom: 1px solid var(--border);
+        }
+        .ai-feature-card-top .ai-icon {
+            font-size: 32px; margin-bottom: 12px;
+        }
+        .ai-feature-card-top h3 {
+            font-size: 18px; font-weight: 700; color: var(--primary-dark);
+            margin-bottom: 6px;
+        }
+        .ai-feature-card-top p {
+            font-size: 14px; color: var(--text-light); line-height: 1.6;
+        }
+        .ai-feature-card-bottom {
+            padding: 20px 28px;
+        }
+        .ai-detail-list { list-style: none; }
+        .ai-detail-list li {
+            padding: 8px 0;
+            font-size: 14px; color: var(--text-mid);
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            display: flex; align-items: flex-start; gap: 10px; line-height: 1.6;
+        }
+        .ai-detail-list li:last-child { border-bottom: none; }
+        .ai-detail-list li::before {
+            content: '→';
+            color: var(--teal); font-weight: 700; flex-shrink: 0;
+        }
+
+        .ai-pipeline {
+            background: var(--primary-dark);
+            border-radius: 20px; padding: 40px;
+            position: relative; overflow: hidden;
+        }
+        .ai-pipeline h3 {
+            font-size: 20px; font-weight: 700; color: white; margin-bottom: 32px;
+            text-align: center;
+        }
+        .pipeline-steps {
+            display: flex; align-items: center; gap: 0;
+            justify-content: center;
+        }
+        .pipeline-step {
+            text-align: center; flex: 1;
+        }
+        .pipeline-step-icon {
+            width: 60px; height: 60px; border-radius: 50%;
+            background: rgba(255,255,255,0.08);
+            border: 2px solid rgba(255,255,255,0.15);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 24px; margin: 0 auto 12px;
+            position: relative;
+        }
+        .pipeline-step-label {
+            font-size: 13px; font-weight: 600; color: var(--teal-light);
+            margin-bottom: 4px;
+        }
+        .pipeline-step-desc {
+            font-size: 12px; color: rgba(255,255,255,0.5); line-height: 1.5;
+        }
+        .pipeline-arrow {
+            font-size: 20px; color: var(--teal); flex-shrink: 0;
+            margin: 0 8px; padding-bottom: 32px;
+        }
+
+        /* ===================== TAB 5: 落地應用 ===================== */
+        .application-intro {
+            display: grid; grid-template-columns: 1fr 1fr;
+            gap: 60px; align-items: center;
+            margin-bottom: 60px;
+        }
+        .application-intro-text h2 {
+            font-size: 30px; font-weight: 800;
+            color: var(--primary-dark); margin-bottom: 16px; line-height: 1.3;
+        }
+        .application-intro-text p {
+            font-size: 15px; line-height: 1.85; color: var(--text-mid);
+        }
+        .scenario-phones {
+            display: flex; gap: 12px; justify-content: center; align-items: flex-end;
+        }
+        .scenario-phone {
+            width: 160px;
+            background: #111827; border-radius: 26px;
+            border: 4px solid #1f2937;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.25);
+            overflow: hidden;
+        }
+        .scenario-phone.main {
+            width: 180px;
+            transform: translateY(-10px);
+            box-shadow: 0 25px 60px rgba(27,54,114,0.3);
+        }
+        .scenario-phone img { width: 100%; display: block; }
+
+        .workflow-section {
+            background: white;
+            border-radius: 20px; padding: 40px;
+            border: 1px solid var(--border);
+            box-shadow: 0 4px 20px rgba(27,54,114,0.06);
+            margin-bottom: 40px;
+        }
+        .workflow-section h3 {
+            font-size: 22px; font-weight: 700; color: var(--primary-dark);
+            margin-bottom: 30px; text-align: center;
+        }
+        .workflow-steps {
+            display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px;
+            position: relative;
+        }
+        .workflow-steps::before {
+            content: '';
+            position: absolute;
+            top: 30px; left: 10%; right: 10%;
+            height: 2px;
+            background: linear-gradient(90deg, var(--teal), var(--cyan));
+        }
+        .workflow-step {
+            text-align: center; position: relative; z-index: 1;
+        }
+        .workflow-step-num {
+            width: 60px; height: 60px;
+            background: linear-gradient(135deg, var(--primary), var(--teal));
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 20px; font-weight: 900;
+            color: white; margin: 0 auto 12px;
+            box-shadow: 0 4px 16px rgba(27,54,114,0.3);
+        }
+        .workflow-step h4 {
+            font-size: 14px; font-weight: 700; color: var(--primary-dark);
+            margin-bottom: 6px;
+        }
+        .workflow-step p {
+            font-size: 12px; color: var(--text-light); line-height: 1.6;
+        }
+
+        .use-cases-grid {
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;
+            margin-bottom: 40px;
+        }
+        .use-case-card {
+            background: white;
+            border-radius: 16px; padding: 28px 24px;
+            border: 1px solid var(--border);
+            box-shadow: 0 4px 20px rgba(27,54,114,0.06);
+            transition: all 0.3s; position: relative; overflow: hidden;
+        }
+        .use-case-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 16px 50px rgba(27,54,114,0.12);
+        }
+        .use-case-card::before {
+            content: '';
+            position: absolute; top: 0; left: 0; right: 0; height: 4px;
+        }
+        .use-case-card:nth-child(1)::before { background: var(--primary); }
+        .use-case-card:nth-child(2)::before { background: var(--teal); }
+        .use-case-card:nth-child(3)::before { background: var(--accent); }
+        .use-case-icon { font-size: 36px; margin-bottom: 16px; }
+        .use-case-card h4 {
+            font-size: 17px; font-weight: 700;
+            color: var(--primary-dark); margin-bottom: 10px;
+        }
+        .use-case-card p {
+            font-size: 14px; line-height: 1.7; color: var(--text-light);
+            margin-bottom: 16px;
+        }
+        .use-case-list { list-style: none; }
+        .use-case-list li {
+            font-size: 13px; color: var(--text-mid);
+            padding: 5px 0;
+            display: flex; align-items: center; gap: 8px;
+        }
+        .use-case-list li::before {
+            content: '✓';
+            color: var(--teal); font-weight: 700;
+        }
+
+        .impact-section {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            border-radius: 20px; padding: 50px;
+        }
+        .impact-section h3 {
+            font-size: 24px; font-weight: 800; color: white;
+            text-align: center; margin-bottom: 36px;
+        }
+        .impact-grid {
+            display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px;
+        }
+        .impact-item {
+            background: rgba(255,255,255,0.07);
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 14px; padding: 24px 20px;
+            text-align: center;
+        }
+        .impact-num {
+            font-size: 36px; font-weight: 900; color: var(--teal-light);
+            line-height: 1; margin-bottom: 6px;
+        }
+        .impact-label {
+            font-size: 13px; color: rgba(255,255,255,0.65);
+            line-height: 1.5;
+        }
+
+        /* ===================== FOOTER ===================== */
+        .footer {
+            background: var(--bg-dark);
+            padding: 50px 40px;
+        }
+        .footer-inner {
+            max-width: 1200px; margin: 0 auto;
+            display: flex; align-items: center; justify-content: space-between;
+            gap: 40px;
+        }
+        .footer-logo { display: flex; align-items: center; gap: 16px; }
+        .footer-logo img { height: 48px; mix-blend-mode: screen; }
+        .footer-logo-divider {
+            width: 1px; height: 36px;
+            background: rgba(255,255,255,0.2);
+        }
+        .footer-logo-text {
+            font-size: 16px; font-weight: 600; color: rgba(255,255,255,0.8);
+        }
+        .footer-logo-sub {
+            font-size: 12px; color: rgba(255,255,255,0.4);
+        }
+        .footer-links {
+            display: flex; gap: 32px;
+        }
+        .footer-links a {
+            color: rgba(255,255,255,0.5);
+            font-size: 14px; text-decoration: none;
+            transition: color 0.2s;
+        }
+        .footer-links a:hover { color: rgba(255,255,255,0.9); }
+        .footer-copy {
+            font-size: 12px; color: rgba(255,255,255,0.3);
+        }
+
+        /* ===================== SCROLL ANIMATION ===================== */
+        .fade-up {
+            opacity: 0; transform: translateY(30px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+        .fade-up.visible {
+            opacity: 1; transform: translateY(0);
+        }
+
+        /* ===================== RESPONSIVE ===================== */
+        @media (max-width: 1024px) {
+            .hero-content { grid-template-columns: 1fr; text-align: center; }
+            .hero-right { display: none; }
+            .hero-title { font-size: 38px; }
+            .stats-inner { grid-template-columns: repeat(2, 1fr); }
+            .product-overview { grid-template-columns: 1fr; }
+            .hardware-inner { grid-template-columns: 1fr; }
+            .core-features-grid { grid-template-columns: repeat(2, 1fr); }
+            .tech-grid { grid-template-columns: 1fr; }
+            .security-hero-inner { grid-template-columns: 1fr; }
+            .security-grid { grid-template-columns: 1fr 1fr; }
+            .ai-features-grid { grid-template-columns: 1fr; }
+            .application-intro { grid-template-columns: 1fr; }
+            .workflow-steps { grid-template-columns: 1fr; }
+            .workflow-steps::before { display: none; }
+            .use-cases-grid { grid-template-columns: 1fr; }
+            .impact-grid { grid-template-columns: repeat(2, 1fr); }
+            .tabs-nav { flex-wrap: wrap; }
+            .pipeline-steps { flex-direction: column; align-items: flex-start; gap: 20px; }
+            .pipeline-arrow { transform: rotate(90deg); }
+        }
+        @media (max-width: 768px) {
+            .navbar { padding: 0 20px; }
+            .navbar-links { display: none; }
+            .hero { padding: 90px 20px 50px; }
+            .hero-title { font-size: 30px; }
+            .stats-bar { padding: 24px 20px; }
+            .stats-inner { grid-template-columns: repeat(2, 1fr); gap: 20px; }
+            .stat-item { border-right: none; padding: 0; }
+            .tabs-nav-wrapper, .tab-content { padding: 0 20px; }
+            .tab-btn { font-size: 13px; padding: 10px 12px; }
+            .security-grid { grid-template-columns: 1fr; }
+            .compliance-strip { flex-direction: column; }
+            .impact-grid { grid-template-columns: repeat(2, 1fr); }
+            .footer-inner { flex-direction: column; text-align: center; }
+            .footer-links { flex-wrap: wrap; justify-content: center; }
+            .hardware-section, .security-hero, .ai-pipeline { padding: 30px 20px; }
+            .ai-lab-hero { padding: 30px 20px; }
+            .impact-section { padding: 30px 20px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ==================== NAVBAR ==================== -->
+<nav class="navbar">
+    <a href="https://theoneai.com.tw" class="navbar-logo">
+        <img src="./20260316AI智慧大賞用資料/1024公司logo.png" alt="本一科技 The One AI">
+        <span class="navbar-logo-text">智慧居家護理師</span>
+    </a>
+    <div class="navbar-links">
+        <a href="#tabs" onclick="switchTab(0)">產品核心</a>
+        <a href="#tabs" onclick="switchTab(1)">技術亮點</a>
+        <a href="#tabs" onclick="switchTab(2)">安全技術</a>
+        <a href="#tabs" onclick="switchTab(3)">AI實驗室</a>
+        <a href="#tabs" onclick="switchTab(4)">落地應用</a>
+        <a href="https://theoneai.com.tw" class="navbar-cta">回官網</a>
+    </div>
+</nav>
+
+<!-- ==================== HERO ==================== -->
+<section class="hero">
+    <div class="hero-grid"></div>
+    <div class="hero-glow-1"></div>
+    <div class="hero-glow-2"></div>
+    <div class="hero-glow-3"></div>
+
+    <div class="hero-content">
+        <div class="hero-left">
+            <div class="hero-badge">
+                <div class="hero-badge-dot"></div>
+                2026 AI 智慧大賞 · 醫療照護創新
+            </div>
+            <div class="hero-product-logo">
+                <img src="./20260316AI智慧大賞用資料/TaiOneCare-cis.png" alt="TaiOne Care GPT">
+            </div>
+            <h1 class="hero-title">
+                智慧<span class="accent">居家</span><br>護理師
+            </h1>
+            <p class="hero-subtitle">AI × BodyCam × 醫護協作</p>
+            <p class="hero-desc">
+                結合 AI 大語言模型、穿戴式 BodyCam 硬體與智慧護理 APP，打造全台第一個為居家護理師量身設計的 AI 輔助系統。讓護理師更專注照護，讓資料自動流動，讓每一筆健康記錄更安全。
+            </p>
+            <div class="hero-actions">
+                <a href="#tabs" class="btn-primary" onclick="scrollToTabs()">探索產品功能</a>
+                <a href="https://theoneai.com.tw" class="btn-outline">了解本一科技</a>
+            </div>
+        </div>
+        <div class="hero-right">
+            <div class="phone-showcase">
+                <div class="phone-frame">
+                    <img src="./20260316AI智慧大賞用資料/20251223/IMG_7181.PNG" alt="AI排程管理">
+                </div>
+                <div class="phone-frame main">
+                    <img src="./20260316AI智慧大賞用資料/20251223/IMG_7174.PNG" alt="護理師APP主介面">
+                </div>
+                <div class="phone-frame">
+                    <img src="./20260316AI智慧大賞用資料/20251223/IMG_7175.PNG" alt="生命徵象記錄">
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== STATS BAR ==================== -->
+<div class="stats-bar">
+    <div class="stats-inner">
+        <div class="stat-item">
+            <div class="stat-num"><span>6</span> 層</div>
+            <div class="stat-label">縱深資安防護架構</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-num"><span>3</span> 重</div>
+            <div class="stat-label">身分與請求把關機制</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-num"><span>100</span>%</div>
+            <div class="stat-label">資料落地台灣 · Azure Taiwan North</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-num"><span>24</span>小時</div>
+            <div class="stat-label">全天候 AI 輔助與監控</div>
+        </div>
+    </div>
+</div>
+
+<!-- ==================== TABS ==================== -->
+<section class="tabs-section" id="tabs">
+    <div class="tabs-nav-wrapper">
+        <div class="tabs-nav">
+            <button class="tab-btn active" onclick="switchTab(0)">產品核心</button>
+            <button class="tab-btn" onclick="switchTab(1)">技術亮點</button>
+            <button class="tab-btn" onclick="switchTab(2)">安全技術</button>
+            <button class="tab-btn" onclick="switchTab(3)">AI 實驗室</button>
+            <button class="tab-btn" onclick="switchTab(4)">落地應用</button>
+        </div>
+    </div>
+    <div class="tab-content">
+
+        <!-- ====== TAB 1: 產品核心 ====== -->
+        <div class="tab-panel active" id="tab-0">
+            <div class="section-header fade-up">
+                <div class="section-tag">Product Core</div>
+                <h2 class="section-title">什麼是智慧居家護理師？</h2>
+                <p class="section-desc">TaiOne Care GPT 是本一科技為台灣居家護理量身打造的 AI 輔助平台，整合硬體 BodyCam、行動 APP 與雲端 AI，重新定義居家護理的工作方式。</p>
+            </div>
+
+            <div class="product-overview fade-up">
+                <div class="product-overview-text">
+                    <h2>一套系統，<br>串聯護理全流程</h2>
+                    <p>從訪視前的 AI 病摘預備、訪視中的即時記錄，到訪視後的資料自動整合，TaiOne Care GPT 讓護理師從繁瑣的文書工作中解放，將精力還給最重要的事——照護病人。</p>
+                    <ul class="feature-list">
+                        <li>
+                            <div class="feature-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            </div>
+                            <span><strong>AI 自動病摘</strong>：訪視前自動彙整前次記錄，提醒本次注意事項</span>
+                        </li>
+                        <li>
+                            <div class="feature-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            </div>
+                            <span><strong>BodyCam 自動記錄</strong>：穿戴式攝影機同步錄音、拍照、影片，免手動</span>
+                        </li>
+                        <li>
+                            <div class="feature-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            </div>
+                            <span><strong>AI 紅綠燈評估</strong>：生命徵象即時 AI 分析，異常自動標示</span>
+                        </li>
+                        <li>
+                            <div class="feature-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            </div>
+                            <span><strong>智慧排程管理</strong>：多類型訪視行事曆，跨機構協作排班</span>
+                        </li>
+                        <li>
+                            <div class="feature-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            </div>
+                            <span><strong>軍規資安防護</strong>：6 層縱深防禦，資料 100% 落地台灣</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="product-phones fade-up">
+                    <div class="product-phone">
+                        <img src="./20260316AI智慧大賞用資料/20251223/IMG_7181.PNG" alt="AI 排程">
+                    </div>
+                    <div class="product-phone featured">
+                        <img src="./20260316AI智慧大賞用資料/20251223/IMG_7174.PNG" alt="護理師主介面">
+                    </div>
+                    <div class="product-phone">
+                        <img src="./20260316AI智慧大賞用資料/20251223/IMG_7175.PNG" alt="生命徵象">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Hardware Section -->
+            <div class="hardware-section fade-up">
+                <div class="hardware-inner">
+                    <div class="hardware-text">
+                        <div class="tag">Hardware · 穿戴式硬體</div>
+                        <h2>TaiOne BodyCam</h2>
+                        <p>全台首款專為居家護理設計的穿戴式 AI 攝影機。可夾掛於護理師制服，自動記錄訪視全程，支援 Wi-Fi 同步上傳音檔、照片與影片至 TaiOne Care GPT 雲端。</p>
+                        <div class="hw-specs">
+                            <div class="hw-spec">
+                                <div class="hw-spec-label">連線方式</div>
+                                <div class="hw-spec-val">Wi-Fi 5GHz / 2.4GHz</div>
+                            </div>
+                            <div class="hw-spec">
+                                <div class="hw-spec-label">管理方式</div>
+                                <div class="hw-spec-val">APP 遠端韌體更新</div>
+                            </div>
+                            <div class="hw-spec">
+                                <div class="hw-spec-label">傳輸功能</div>
+                                <div class="hw-spec-val">音檔 / 相片 / 影片</div>
+                            </div>
+                            <div class="hw-spec">
+                                <div class="hw-spec-label">串流支援</div>
+                                <div class="hw-spec-val">RTSP 即時串流</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="hardware-visual">
+                        <img src="../Desktop/截圖 2026-03-16 中午12.21.30.png" alt="TaiOne BodyCam 實機照片"
+                            style="max-width:380px; width:100%; border-radius:16px; filter: drop-shadow(0 20px 50px rgba(0,0,0,0.5));">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Core Feature Cards -->
+            <div class="core-features-grid fade-up">
+                <div class="core-card">
+                    <div class="core-card-icon blue">🤖</div>
+                    <h4>AI 輔助決策</h4>
+                    <p>Care GPT 引擎分析病史記錄，自動生成本次訪視注意事項，減少護理師查閱時間 80%。</p>
+                </div>
+                <div class="core-card">
+                    <div class="core-card-icon teal">📹</div>
+                    <h4>全程影音記錄</h4>
+                    <p>BodyCam 自動同步音檔、照片、影片，結合 AI 語音辨識，訪視記錄自動生成。</p>
+                </div>
+                <div class="core-card">
+                    <div class="core-card-icon red">❤️</div>
+                    <h4>生命徵象管理</h4>
+                    <p>完整記錄體溫、心跳、呼吸、血壓、血氧、血糖等，AI 即時評估紅黃綠燈。</p>
+                </div>
+                <div class="core-card">
+                    <div class="core-card-icon cyan">📅</div>
+                    <h4>智慧排程協作</h4>
+                    <p>一般訪視、傷口護理、管路更換、藥物管理多類型行程，跨機構智慧排班。</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ====== TAB 2: 技術亮點 ====== -->
+        <div class="tab-panel" id="tab-1">
+            <div class="section-header fade-up">
+                <div class="section-tag">Technology Highlights</div>
+                <h2 class="section-title">創新技術突破</h2>
+                <p class="section-desc">TaiOne Care GPT 以四大核心技術模組，串聯居家護理每一個關鍵場景。</p>
+            </div>
+
+            <div class="tech-grid fade-up">
+                <!-- AI 病摘與注意事項 -->
+                <div class="tech-card">
+                    <div class="tech-card-header">
+                        <div class="tech-card-icon" style="background:rgba(27,54,114,0.1); font-size:22px;">🧠</div>
+                        <div>
+                            <h3>TaiOne AI 前次病摘 × 本次注意</h3>
+                            <p>訪視前 AI 自動備妥，護理師零等待</p>
+                        </div>
+                    </div>
+                    <div class="tech-card-body">
+                        <div class="tech-card-phone">
+                            <img src="./20260316AI智慧大賞用資料/20251223/IMG_7174.PNG" alt="AI病摘介面">
+                        </div>
+                        <div class="tech-card-features">
+                            <div class="tech-feature-item"><div class="tech-dot"></div>自動分析歷史訪視紀錄，生成結構化病摘摘要</div>
+                            <div class="tech-feature-item"><div class="tech-dot"></div>AI 預判本次訪視重點，提示注意事項</div>
+                            <div class="tech-feature-item"><div class="tech-dot"></div>管路到期日、藥物變更自動警示</div>
+                            <div class="tech-feature-item"><div class="tech-dot"></div>支援「MORE」展開完整 AI 分析報告</div>
+                            <div class="tech-feature-item"><div class="tech-dot"></div>多語言輸出，適應跨機構協作需求</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- AI 紅綠燈 -->
+                <div class="tech-card">
+                    <div class="tech-card-header">
+                        <div class="tech-card-icon" style="background:rgba(192,20,60,0.1); font-size:22px;">🚦</div>
+                        <div>
+                            <h3>TaiOne AI 紅綠燈評估系統</h3>
+                            <p>生命徵象即時 AI 分析，異常一眼辨識</p>
+                        </div>
+                    </div>
+                    <div class="tech-card-body">
+                        <div class="tech-card-phone">
+                            <img src="./20260316AI智慧大賞用資料/20251223/IMG_7175.PNG" alt="生命徵象紅綠燈">
+                        </div>
+                        <div class="tech-card-features">
+                            <div class="tech-feature-item"><div class="tech-dot"></div>體溫、心跳、呼吸、血壓 AI 分析</div>
+                            <div class="tech-feature-item"><div class="tech-dot"></div>意識、血氧、血糖（飯前/飯後）評估</div>
+                            <div class="tech-feature-item"><div class="tech-dot"></div>紅/黃/綠燈即時顯示異常風險等級</div>
+                            <div class="tech-feature-item"><div class="tech-dot"></div>異常值自動觸發護理長警報通知</div>
+                            <div class="tech-feature-item"><div class="tech-dot"></div>歷史趨勢圖表，追蹤病況演變</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TaiOne Cam 傳輸 -->
+                <div class="tech-card">
+                    <div class="tech-card-header">
+                        <div class="tech-card-icon" style="background:rgba(14,165,233,0.1); font-size:22px;">📡</div>
+                        <div>
+                            <h3>TaiOne Cam 智慧傳輸系統</h3>
+                            <p>BodyCam 音影像自動同步雲端</p>
+                        </div>
+                    </div>
+                    <div class="tech-card-body">
+                        <div class="tech-card-phone">
+                            <img src="./20260316AI智慧大賞用資料/20251223/IMG_7177.PNG" alt="Cam傳輸">
+                        </div>
+                        <div class="tech-card-features">
+                            <div class="tech-feature-item"><div class="tech-dot"></div>音檔、相片、影片三類型自動分類上傳</div>
+                            <div class="tech-feature-item"><div class="tech-dot"></div>Wi-Fi 連接後自動觸發傳輸，無須手動</div>
+                            <div class="tech-feature-item"><div class="tech-dot"></div>傳輸進度即時顯示，斷點續傳</div>
+                            <div class="tech-feature-item"><div class="tech-dot"></div>傷口照片本地備份，供護理記錄參考</div>
+                            <div class="tech-feature-item"><div class="tech-dot"></div>音檔 AI 語音辨識自動轉文字記錄</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- AI 排程 -->
+                <div class="tech-card">
+                    <div class="tech-card-header">
+                        <div class="tech-card-icon" style="background:rgba(13,148,136,0.1); font-size:22px;">📅</div>
+                        <div>
+                            <h3>TaiOne AI Schedule</h3>
+                            <p>智慧行程管理，跨機構協作零障礙</p>
+                        </div>
+                    </div>
+                    <div class="tech-card-body">
+                        <div class="tech-card-phone">
+                            <img src="./20260316AI智慧大賞用資料/20251223/IMG_7181.PNG" alt="AI排程">
+                        </div>
+                        <div class="tech-card-features">
+                            <div class="tech-feature-item"><div class="tech-dot"></div>5 種訪視類型：一般、傷口、管路、藥物、定期</div>
+                            <div class="tech-feature-item"><div class="tech-dot"></div>色碼行事曆，訪視類型一眼辨識</div>
+                            <div class="tech-feature-item"><div class="tech-dot"></div>管路到期、藥物到期自動提醒</div>
+                            <div class="tech-feature-item"><div class="tech-dot"></div>未來訪視日期一鍵選取，AI 自動規劃</div>
+                            <div class="tech-feature-item"><div class="tech-dot"></div>多機構、多護理師協作排班</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="ai-highlight-banner fade-up">
+                <div class="ai-highlight-text">
+                    <h3>從 BodyCam 到 AI 報告：全自動護理記錄流程</h3>
+                    <p>護理師只需穿戴 BodyCam 進行訪視，TaiOne Care GPT 自動完成錄音轉文字、AI 分析、記錄歸檔的完整流程，讓護理師的時間真正用在照護病人身上。</p>
+                </div>
+                <div class="ai-stats-row">
+                    <div class="ai-stat">
+                        <div class="ai-stat-num">80%</div>
+                        <div class="ai-stat-label">文書時間減少</div>
+                    </div>
+                    <div class="ai-stat">
+                        <div class="ai-stat-num">3</div>
+                        <div class="ai-stat-label">秒完成 AI 病摘</div>
+                    </div>
+                    <div class="ai-stat">
+                        <div class="ai-stat-num">100%</div>
+                        <div class="ai-stat-label">記錄自動化率</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ====== TAB 3: 安全技術 ====== -->
+        <div class="tab-panel" id="tab-2">
+            <div class="section-header fade-up">
+                <div class="section-tag">Security Architecture</div>
+                <h2 class="section-title">守護每一筆健康資料</h2>
+                <p class="section-desc">TaiOneCare 採用六層縱深防禦架構，以軍規等級的資安標準保護每一位病患的隱私資料。</p>
+            </div>
+
+            <div class="security-hero fade-up">
+                <div class="security-hero-inner">
+                    <div class="security-hero-text">
+                        <h2>為什麼您可以信任 TaiOneCare？</h2>
+                        <p>從網路傳輸層到資料儲存層，每一環節均經過嚴格安全設計。我們相信：最好的隱私保護，是讓資料根本不可能外洩。</p>
+                        <div class="security-key-metrics">
+                            <div class="sec-metric">
+                                <div class="sec-metric-num">6層</div>
+                                <div class="sec-metric-label">縱深安全防護</div>
+                            </div>
+                            <div class="sec-metric">
+                                <div class="sec-metric-num">3重</div>
+                                <div class="sec-metric-label">身分把關機制</div>
+                            </div>
+                            <div class="sec-metric">
+                                <div class="sec-metric-num">100%</div>
+                                <div class="sec-metric-label">API 請求追蹤</div>
+                            </div>
+                            <div class="sec-metric">
+                                <div class="sec-metric-num">30天</div>
+                                <div class="sec-metric-label">日誌保留期</div>
+                            </div>
+                            <div class="sec-metric">
+                                <div class="sec-metric-num">TLS</div>
+                                <div class="sec-metric-label">1.2+ 全程加密</div>
+                            </div>
+                            <div class="sec-metric">
+                                <div class="sec-metric-num">台灣</div>
+                                <div class="sec-metric-label">100% 資料落地</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="security-layers-visual">
+                        <div class="layers-diagram">
+                            <div class="layer-ring">
+                                <div class="layer-dot" style="top:-4px; left:50%; transform:translateX(-50%)"></div>
+                            </div>
+                            <div class="layer-ring">
+                                <div class="layer-dot" style="bottom:-4px; left:50%; transform:translateX(-50%)"></div>
+                            </div>
+                            <div class="layer-ring">
+                                <div class="layer-dot" style="top:-4px; right:20%"></div>
+                            </div>
+                            <div class="layer-ring"></div>
+                            <div class="layer-ring"></div>
+                            <div class="layer-center">🏥</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="security-grid fade-up">
+                <div class="sec-card">
+                    <div class="sec-card-num">L1</div>
+                    <h4>網路層 · 護城河防線</h4>
+                    <p>阻絕外部竊聽，全程加密傳輸</p>
+                    <ul class="sec-points">
+                        <li>所有通訊採用銀行級 HTTPS/TLS 1.2+ 加密</li>
+                        <li>VNet 私有網路隔離，應用程式隱藏於公網之外</li>
+                        <li>NAT Gateway 固定 IP，統一出站流量路由</li>
+                    </ul>
+                </div>
+                <div class="sec-card">
+                    <div class="sec-card-num">L2</div>
+                    <h4>認證層 · 三道城門守衛</h4>
+                    <p>嚴謹的三層遞進式認證機制</p>
+                    <ul class="sec-points">
+                        <li>Layer 1：API Key 設備驗證，確認合法 App</li>
+                        <li>Layer 2：JWT Token 限時通行證，RS256 非對稱加密，1小時自動換鑰</li>
+                        <li>Layer 3：身分解析，精準識別機構與角色</li>
+                    </ul>
+                </div>
+                <div class="sec-card">
+                    <div class="sec-card-num">L3</div>
+                    <h4>授權層 · RBAC 最小權限</h4>
+                    <p>機構絕對隔離，杜絕越權存取</p>
+                    <ul class="sec-points">
+                        <li>SuperAdmin → Admin → HeadNurse → Nurse 層級管控</li>
+                        <li>OrganizationContext 過濾器，資料邏輯層完全隔離</li>
+                        <li>不同機構使用者在底層 API 即被阻斷</li>
+                    </ul>
+                </div>
+                <div class="sec-card">
+                    <div class="sec-card-num">L4</div>
+                    <h4>應用層 · 主動防護罩</h4>
+                    <p>阻絕惡意行為與異常攻擊</p>
+                    <ul class="sec-points">
+                        <li>Rate Limiting 防止 DDoS 與暴力破解</li>
+                        <li>容量限制 10MB，防止海量資料注入</li>
+                        <li>CSRF 保護 + FluentValidation 輸入驗證</li>
+                    </ul>
+                </div>
+                <div class="sec-card">
+                    <div class="sec-card-num">L5</div>
+                    <h4>資料層 · 數位金庫</h4>
+                    <p>最高規格的密碼與機密管理</p>
+                    <ul class="sec-points">
+                        <li>BCrypt 不可逆雜湊，系統中無明文密碼</li>
+                        <li>Azure Key Vault 集中管理所有系統鑰匙</li>
+                        <li>首次登入強制重設，Email 驗證啟用帳號</li>
+                    </ul>
+                </div>
+                <div class="sec-card">
+                    <div class="sec-card-num">L6</div>
+                    <h4>稽核層 · 24小時監控</h4>
+                    <p>100% 軌跡追蹤與隱私遮罩</p>
+                    <ul class="sec-points">
+                        <li>每筆操作記錄來源 IP、裝置、時間、動作</li>
+                        <li>Serilog 框架，每日滾動備份，保留 30 天</li>
+                        <li>PII 個資自動遮罩，系統管理員亦看不到真實隱私</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="compliance-strip fade-up">
+                <div class="compliance-title">🏆 國際合規認證</div>
+                <div class="compliance-badges">
+                    <div class="compliance-badge">HIPAA 合規</div>
+                    <div class="compliance-badge">ISO 27001</div>
+                    <div class="compliance-badge">SOC 2 Type II</div>
+                    <div class="compliance-badge">OWASP Top 10</div>
+                    <div class="compliance-badge">CodeQL 自動安全掃描</div>
+                    <div class="compliance-badge">Microsoft Azure Taiwan North</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ====== TAB 4: AI 實驗室 ====== -->
+        <div class="tab-panel" id="tab-3">
+            <div class="ai-lab-hero fade-up">
+                <h2>⚗️ TaiOne AI 實驗室</h2>
+                <p>Care GPT 核心引擎持續演進，以大語言模型 × 醫療領域知識 × 居家護理實踐，打造最懂護理師的 AI 夥伴。</p>
+                <div class="ai-capabilities">
+                    <span class="ai-cap-badge">🎙️ 語音辨識轉文字</span>
+                    <span class="ai-cap-badge">📋 結構化病摘生成</span>
+                    <span class="ai-cap-badge">🚦 生命徵象風險評估</span>
+                    <span class="ai-cap-badge">📅 智慧排程優化</span>
+                    <span class="ai-cap-badge">🔒 PII 自動識別遮罩</span>
+                    <span class="ai-cap-badge">📊 長期健康趨勢分析</span>
+                </div>
+            </div>
+
+            <div class="ai-features-grid fade-up">
+                <div class="ai-feature-card">
+                    <div class="ai-feature-card-top">
+                        <div class="ai-icon">🎙️</div>
+                        <h3>AI 語音辨識 × 護理記錄自動化</h3>
+                        <p>BodyCam 錄製的音檔，透過專業醫療語音辨識模型轉為文字，自動填入護理記錄欄位。</p>
+                    </div>
+                    <div class="ai-feature-card-bottom">
+                        <ul class="ai-detail-list">
+                            <li>專為中文醫護情境優化的語音辨識模型</li>
+                            <li>自動識別病患姓名、診斷、用藥等關鍵資訊</li>
+                            <li>支援訪視全程錄音批次轉換處理</li>
+                            <li>與 TaiOne Cam 深度整合，訪視後自動觸發</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="ai-feature-card">
+                    <div class="ai-feature-card-top">
+                        <div class="ai-icon">🧠</div>
+                        <h3>Care GPT 智慧病摘引擎</h3>
+                        <p>以大語言模型為核心，分析累積的訪視記錄，為每次訪視自動生成個人化病摘。</p>
+                    </div>
+                    <div class="ai-feature-card-bottom">
+                        <ul class="ai-detail-list">
+                            <li>分析前次病史記錄，提取重要病況變化</li>
+                            <li>自動識別管路到期、藥物變更等重要事項</li>
+                            <li>預判本次訪視護理重點，減少遺漏風險</li>
+                            <li>持續學習護理師回饋，模型持續優化</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="ai-feature-card">
+                    <div class="ai-feature-card-top">
+                        <div class="ai-icon">🚦</div>
+                        <h3>生命徵象 AI 風險評估模型</h3>
+                        <p>輸入體溫、心跳、血壓等生命徵象後，AI 立即評估風險等級，以紅黃綠燈視覺化呈現。</p>
+                    </div>
+                    <div class="ai-feature-card-bottom">
+                        <ul class="ai-detail-list">
+                            <li>依據個案病史動態調整正常值範圍</li>
+                            <li>多項徵象複合評估，提升異常偵測準確率</li>
+                            <li>紅燈自動推送通知至護理長與主治醫師</li>
+                            <li>長期趨勢分析，早期發現惡化徵兆</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="ai-feature-card">
+                    <div class="ai-feature-card-top">
+                        <div class="ai-icon">🔒</div>
+                        <h3>AI 隱私保護 × PII 自動遮罩</h3>
+                        <p>在記錄與日誌中自動識別並遮罩個人識別資訊，確保即使是系統管理員也無法看到病患隱私。</p>
+                    </div>
+                    <div class="ai-feature-card-bottom">
+                        <ul class="ai-detail-list">
+                            <li>自動識別身分證號、姓名、Email 等 PII</li>
+                            <li>API 日誌中個資一律自動遮罩輸出</li>
+                            <li>符合 HIPAA 個資保護最高標準</li>
+                            <li>遮罩不影響系統功能與除錯能力</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="ai-pipeline fade-up">
+                <h3>TaiOne Care GPT 全自動 AI 處理流程</h3>
+                <div class="pipeline-steps">
+                    <div class="pipeline-step">
+                        <div class="pipeline-step-icon">📹</div>
+                        <div class="pipeline-step-label">BodyCam 錄製</div>
+                        <div class="pipeline-step-desc">訪視全程<br>音影像記錄</div>
+                    </div>
+                    <div class="pipeline-arrow">→</div>
+                    <div class="pipeline-step">
+                        <div class="pipeline-step-icon">📡</div>
+                        <div class="pipeline-step-label">Wi-Fi 自動同步</div>
+                        <div class="pipeline-step-desc">回到有網路<br>自動上傳</div>
+                    </div>
+                    <div class="pipeline-arrow">→</div>
+                    <div class="pipeline-step">
+                        <div class="pipeline-step-icon">🎙️</div>
+                        <div class="pipeline-step-label">AI 語音辨識</div>
+                        <div class="pipeline-step-desc">音檔轉文字<br>關鍵字提取</div>
+                    </div>
+                    <div class="pipeline-arrow">→</div>
+                    <div class="pipeline-step">
+                        <div class="pipeline-step-icon">🧠</div>
+                        <div class="pipeline-step-label">Care GPT 分析</div>
+                        <div class="pipeline-step-desc">病摘生成<br>風險評估</div>
+                    </div>
+                    <div class="pipeline-arrow">→</div>
+                    <div class="pipeline-step">
+                        <div class="pipeline-step-icon">📋</div>
+                        <div class="pipeline-step-label">記錄自動歸檔</div>
+                        <div class="pipeline-step-desc">結構化儲存<br>供後續查閱</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ====== TAB 5: 落地應用 ====== -->
+        <div class="tab-panel" id="tab-4">
+            <div class="section-header fade-up">
+                <div class="section-tag">Real-World Applications</div>
+                <h2 class="section-title">真實落地，改變護理現場</h2>
+                <p class="section-desc">TaiOne Care GPT 已在台灣居家護理機構實際運行，為護理師、病患與機構管理者帶來可量化的改善成效。</p>
+            </div>
+
+            <div class="application-intro fade-up">
+                <div class="application-intro-text">
+                    <h2>護理師的日常，<br>因 AI 而改變</h2>
+                    <p>
+                        傳統居家護理師每天需花費大量時間在訪視前查閱病歷、訪視中手動記錄、訪視後整理文書。TaiOne Care GPT 將這一切自動化，讓護理師重新掌握時間，專注於最有價值的護理照護。
+                    </p>
+                    <br>
+                    <p>
+                        搭配 TaiOne BodyCam 穿戴式攝影機，護理師的每次訪視都有完整的影音記錄作為佐證，大幅提升醫療糾紛保護，也讓跨專業團隊協作更有依據。
+                    </p>
+                </div>
+                <div class="scenario-phones fade-up">
+                    <div class="scenario-phone">
+                        <img src="./20260316AI智慧大賞用資料/20251223/IMG_7178.PNG" alt="Cam音檔傳輸">
+                    </div>
+                    <div class="scenario-phone main">
+                        <img src="./20260316AI智慧大賞用資料/20251223/IMG_7174.PNG" alt="護理主介面">
+                    </div>
+                    <div class="scenario-phone">
+                        <img src="./20260316AI智慧大賞用資料/20251223/IMG_7182.PNG" alt="排程日曆">
+                    </div>
+                </div>
+            </div>
+
+            <div class="workflow-section fade-up">
+                <h3>護理師一日 AI 輔助工作流程</h3>
+                <div class="workflow-steps">
+                    <div class="workflow-step">
+                        <div class="workflow-step-num">1</div>
+                        <h4>訪視前備妥</h4>
+                        <p>查看 AI 生成的今日訪視計畫與病摘提醒</p>
+                    </div>
+                    <div class="workflow-step">
+                        <div class="workflow-step-num">2</div>
+                        <h4>BodyCam 開啟</h4>
+                        <p>穿戴 BodyCam，APP 自動偵測並連線</p>
+                    </div>
+                    <div class="workflow-step">
+                        <div class="workflow-step-num">3</div>
+                        <h4>訪視執行</h4>
+                        <p>輸入生命徵象，AI 即時紅綠燈評估</p>
+                    </div>
+                    <div class="workflow-step">
+                        <div class="workflow-step-num">4</div>
+                        <h4>檔案自動同步</h4>
+                        <p>Wi-Fi 連線後音影像自動上傳雲端</p>
+                    </div>
+                    <div class="workflow-step">
+                        <div class="workflow-step-num">5</div>
+                        <h4>AI 報告生成</h4>
+                        <p>Care GPT 自動整理訪視記錄，無需手打</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="use-cases-grid fade-up">
+                <div class="use-case-card">
+                    <div class="use-case-icon">🏠</div>
+                    <h4>居家護理機構</h4>
+                    <p>適用於承接居家護理個案的護理所、診所附設護理服務，全面提升護理師工作效率與記錄品質。</p>
+                    <ul class="use-case-list">
+                        <li>訪視記錄自動化，減少文書負擔</li>
+                        <li>AI 病摘提升護理照護品質</li>
+                        <li>BodyCam 記錄作為醫糾保護</li>
+                        <li>多護理師智慧排班管理</li>
+                    </ul>
+                </div>
+                <div class="use-case-card">
+                    <div class="use-case-icon">🏥</div>
+                    <h4>醫院居家護理部門</h4>
+                    <p>協助醫院居家護理部門建立標準化數位工作流程，支援跨專業醫療團隊協作。</p>
+                    <ul class="use-case-list">
+                        <li>與醫院 HIS 系統無縫介接</li>
+                        <li>護理長即時掌握所有個案狀況</li>
+                        <li>異常警示自動通報主治醫師</li>
+                        <li>完整稽核軌跡符合法規要求</li>
+                    </ul>
+                </div>
+                <div class="use-case-card">
+                    <div class="use-case-icon">👴</div>
+                    <h4>長照機構 × 老人照護</h4>
+                    <p>適用於日間照顧中心、長照機構，為長期照護個案提供 AI 輔助的持續健康監測與追蹤。</p>
+                    <ul class="use-case-list">
+                        <li>長期生命徵象趨勢追蹤</li>
+                        <li>定期訪視自動排程管理</li>
+                        <li>管路、藥物到期預警提醒</li>
+                        <li>家屬護理報告自動生成</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="impact-section fade-up">
+                <h3>TaiOne Care GPT 實際成效</h3>
+                <div class="impact-grid">
+                    <div class="impact-item">
+                        <div class="impact-num">80%↓</div>
+                        <div class="impact-label">護理文書<br>時間減少</div>
+                    </div>
+                    <div class="impact-item">
+                        <div class="impact-num">100%</div>
+                        <div class="impact-label">訪視記錄<br>完整率</div>
+                    </div>
+                    <div class="impact-item">
+                        <div class="impact-num">6層</div>
+                        <div class="impact-label">資安防護<br>零資料外洩</div>
+                    </div>
+                    <div class="impact-item">
+                        <div class="impact-num">24/7</div>
+                        <div class="impact-label">AI 輔助<br>全天候服務</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<!-- ==================== FOOTER ==================== -->
+<footer class="footer">
+    <div class="footer-inner">
+        <div class="footer-logo">
+            <img src="../Desktop/截圖 2026-03-16 中午12.23.17.png" alt="本一科技 The One AITech Co., Ltd.">
+            <div class="footer-logo-divider"></div>
+            <div>
+                <div class="footer-logo-text">TaiOne Care GPT</div>
+                <div class="footer-logo-sub">智慧居家護理師</div>
+            </div>
+        </div>
+        <div class="footer-links">
+            <a href="https://theoneai.com.tw">官網首頁</a>
+            <a href="https://theoneai.com.tw/#technology">技術介紹</a>
+            <a href="mailto:contact@theoneai.com.tw">聯絡我們</a>
+        </div>
+        <div class="footer-copy">
+            © 2026 本一科技 The One AI. All rights reserved.
+        </div>
+    </div>
+</footer>
+
+<script>
+    // Tab switching
+    function switchTab(index) {
+        const btns = document.querySelectorAll('.tab-btn');
+        const panels = document.querySelectorAll('.tab-panel');
+        btns.forEach((b, i) => b.classList.toggle('active', i === index));
+        panels.forEach((p, i) => p.classList.toggle('active', i === index));
+        // Trigger fade-up for new tab content
+        setTimeout(() => {
+            const activePanel = panels[index];
+            activePanel.querySelectorAll('.fade-up').forEach(el => {
+                el.classList.remove('visible');
+                void el.offsetWidth;
+                el.classList.add('visible');
+            });
+        }, 50);
+    }
+
+    function scrollToTabs() {
+        document.getElementById('tabs').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // Scroll animations
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+            }
+        });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+    // Trigger initial tab fade-ups
+    document.querySelectorAll('#tab-0 .fade-up').forEach(el => {
+        setTimeout(() => el.classList.add('visible'), 100);
+    });
+
+    // Smooth tab scroll in navbar
+    document.querySelectorAll('.navbar-links a[onclick]').forEach(a => {
+        a.addEventListener('click', (e) => {
+            e.preventDefault();
+            const fn = a.getAttribute('onclick');
+            eval(fn);
+            setTimeout(() => {
+                document.getElementById('tabs').scrollIntoView({ behavior: 'smooth' });
+            }, 100);
+        });
+    });
+</script>
+</body>
+</html>
